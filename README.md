@@ -11,4 +11,5 @@ Minimal collection of reusable coding skills.
 - `updesign` — Create or update `docs/design.html`.
 - `updocs` — Bring existing docs in sync with the code.
 - `visual-explainer` — Generate self-contained HTML technical explainers and diagrams.
+- `wholehog` — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - `yolopush` — Stage, commit, push to staging, merge to main, and return to staging.
