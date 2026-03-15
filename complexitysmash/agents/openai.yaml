@@ -1,0 +1,4 @@
+interface:
+  display_name: "Complexity Smash"
+  short_description: "Audit systemic complexity and propose high-leverage simplifications."
+  default_prompt: "Audit this project for systemic complexity: duplicated logic, unnecessary abstractions, mixed responsibilities, boundary problems, and indirection without payoff. Produce prioritized findings and concrete simplifications, and treat this as a deeper architectural pass than spring-cleaning."

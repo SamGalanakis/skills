@@ -1,6 +1,6 @@
 ---
 name: wholehog
-description: Implement the optimal end-state directly with a clean cutover: replace superseded functionality completely, remove dead code, and avoid shims, migrations, adapters, or interim steps.
+description: "Implement the optimal end-state directly with a clean cutover: replace superseded functionality completely, remove dead code, and avoid shims, migrations, adapters, or interim steps."
 ---
 
 # Wholehog
