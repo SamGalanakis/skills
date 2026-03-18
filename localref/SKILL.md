@@ -21,9 +21,3 @@ Clone or download external references to `/tmp/` for local searching and reading
 3. **Apply** — use findings to complete the task in the working repo.
 
 For non-git sources (tarballs, zips): `curl -L <url>` into `/tmp/ref-<name>` and extract.
-
-## Rules
-
-- Never modify the reference copy
-- Never copy files wholesale — read, understand, write your own code
-- Respect licenses — comment the source if code is substantially derived
