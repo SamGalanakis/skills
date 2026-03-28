@@ -5,7 +5,7 @@ description: Audit a product's UX, UI, information architecture, and interaction
 
 # Design Audit
 
-Run a top-down UX/UI/product-design critique. Focus on why the interface is hard to understand, hard to navigate, hard to act in, or visually noisy. Report only the highest-leverage improvements.
+Run a top-down UX/UI/product-design critique. Focus on why the interface is hard to understand, hard to navigate, hard to act in, or visually noisy. Report the full set of meaningful improvements, ordered from most important to least important.
 
 ## Core Stance
 
@@ -22,7 +22,7 @@ Be a hard critic, not a polite stylist. Do not get trapped in the current layout
 ## Audit Discipline
 
 - Diagnose causes, not just symptoms. Weak spacing often means weak grouping; weak grouping often means weak information architecture.
-- Prefer fewer, larger findings. If every note is local, you probably missed the structural problem.
+- Include all meaningful findings, but group low-level symptoms under the structural problem when they share the same root cause.
 - Judge the interface by task clarity, decision quality, and user confidence, not personal taste.
 - Audit novice and expert use separately. Good defaults and clear guidance for one should not block speed for the other.
 - Treat hidden complexity as debt. If the UI stays "clean" only by making users remember, hunt, or guess, it is not actually simple.
@@ -79,9 +79,10 @@ Actively test whether the interface should be reorganized instead of merely poli
 
 Return a numbered list ordered from most important to least important.
 
-- Keep it concise: usually 5-10 items.
+- Include the full set of meaningful findings. Do not stop at a top-N cutoff.
+- Keep each item concise. Merge related issues when they stem from the same design problem.
 - Each item should name the area, state the problem, and propose the improvement in 1-2 sentences.
-- Prefer findings that change structure, flow, comprehension, or action clarity before findings about aesthetics.
+- Order findings so structure, flow, comprehension, and action clarity come before aesthetics or polish.
 - Mention concrete rewrites when warranted: move the panel, split the page, kill the modal, simplify the form, rewrite the heading, promote the CTA, replace the pattern.
 - Avoid generic filler like "improve spacing" unless you can say what the spacing problem is doing to comprehension or action.
 - Do not lead with compliments, methodology, or long summaries.
