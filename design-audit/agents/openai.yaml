@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Audit"
+  short_description: "Holistic UX/UI critique and prioritization."
+  default_prompt: "Use $design-audit to review this project holistically and return a concise numbered list of the highest-leverage UX, UI, information-architecture, and interaction-model improvements."

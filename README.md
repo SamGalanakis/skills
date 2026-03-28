@@ -4,6 +4,7 @@ Minimal collection of reusable coding skills.
 
 - `complexitysmash` — Audit a codebase for systemic complexity and high-leverage simplifications.
 - `datastar` — Build HTML-first reactive web apps with Datastar and Rust backends.
+- `design-audit` — Audit UX/UI, information architecture, and interaction design holistically.
 - `frontend-design` — Create polished, distinctive frontend interfaces.
 - `ghmonitor` — Monitor GitHub Actions runs and fix failures.
 - `localref` — Clone or download external references locally for research.
