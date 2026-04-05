@@ -1,0 +1,4 @@
+interface:
+  display_name: "Performancesmash"
+  short_description: "Audit real performance bottlenecks and high-leverage optimizations."
+  default_prompt: "Use $performancesmash to audit this project for real performance bottlenecks across CPU, memory, allocation behavior, data access, caching, databases, network hops, payload size, batching, connection reuse, queueing, and compression. Return a concise severity-ordered list of the highest-leverage optimizations, and prefer structural wins over micro-optimizations."

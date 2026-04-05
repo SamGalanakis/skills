@@ -8,6 +8,7 @@ Minimal collection of reusable coding skills.
 - `frontend-design` — Create polished, distinctive frontend interfaces.
 - `ghmonitor` — Monitor GitHub Actions runs and fix failures.
 - `localref` — Clone or download external references locally for research.
+- `performancesmash` — Audit systems for real performance bottlenecks and high-leverage optimizations.
 - `spring-cleaning` — Do a full codebase cleanup and restructuring pass.
 - `uparchitecture` — Create or update `docs/architecture.html`.
 - `updesign` — Create or update `docs/design.html`.
