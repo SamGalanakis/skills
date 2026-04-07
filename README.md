@@ -9,6 +9,7 @@ Minimal collection of reusable coding skills.
 - `ghmonitor` — Monitor GitHub Actions runs and fix failures.
 - `localref` — Clone or download external references locally for research.
 - `performancesmash` — Audit systems for real performance bottlenecks and high-leverage optimizations.
+- `surrealdb` — Build, model, query, secure, migrate, and operate SurrealDB 3 systems with current v3 guidance.
 - `spring-cleaning` — Do a full codebase cleanup and restructuring pass.
 - `uparchitecture` — Create or update `docs/architecture.html`.
 - `updesign` — Create or update `docs/design.html`.
@@ -16,3 +17,17 @@ Minimal collection of reusable coding skills.
 - `visual-explainer` — Generate self-contained HTML technical explainers and diagrams.
 - `wholehog` — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - `yolopush` — Stage, commit, push to staging, merge to main, and return to staging.
+
+## Recent additions
+
+- `surrealdb/SKILL.md` — current SurrealDB 3 skill, expanded and verified against latest v3 docs/release guidance, including Rust SDK and end-to-end type-safety recommendations.
+
+## Shipping
+
+Use `yolopush` when you want to ship repo changes with the zero-friction flow:
+
+- stage everything
+- commit
+- push `staging`
+- merge to `main`
+- return to `staging`
