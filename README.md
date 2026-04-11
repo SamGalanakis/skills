@@ -2,6 +2,8 @@
 
 Minimal collection of reusable coding skills.
 
+## Custom
+
 - `complexitysmash` — Audit a codebase for systemic complexity and high-leverage simplifications.
 - `datastar` — Build HTML-first reactive web apps with Datastar and Rust backends.
 - `design-audit` — Audit UX/UI, information architecture, and interaction design holistically.
@@ -14,9 +16,13 @@ Minimal collection of reusable coding skills.
 - `uparchitecture` — Create or update `docs/architecture.html`.
 - `updesign` — Create or update `docs/design.html`.
 - `updocs` — Bring existing docs in sync with the code.
-- `visual-explainer` — Generate self-contained HTML technical explainers and diagrams.
 - `wholehog` — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - `yolopush` — Stage, commit, push to staging, merge to main, and return to staging.
+
+## External
+
+- [`impeccable`](https://github.com/pbakaus/impeccable)
+- [`visual-explainer`](https://github.com/nicobailon/visual-explainer)
 
 ## Recent additions
 
