@@ -4,6 +4,7 @@ Minimal collection of reusable coding skills.
 
 ## Internal
 
+- [`clankermerge`](./clankermerge/SKILL.md) — Controlled interactive rebase/merge: auto-resolve obvious conflicts, ask one compact question per real decision.
 - [`complexitysmash`](./complexitysmash/SKILL.md) — Audit a codebase for systemic complexity and high-leverage simplifications.
 - [`datastar`](./datastar/SKILL.md) — Build HTML-first reactive web apps with Datastar and Rust backends.
 - [`design-audit`](./design-audit/SKILL.md) — Audit UX/UI, information architecture, and interaction design holistically.
