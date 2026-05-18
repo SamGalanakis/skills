@@ -24,4 +24,5 @@ Minimal collection of reusable coding skills.
 ## External
 
 - [`impeccable`](https://github.com/pbakaus/impeccable) — External skill collection by Paul Bakaus.
+- [`pilcrow`](https://pilcrow.ink/) — External skill for prose editing, linting, and writing workflows.
 - [`visual-explainer`](https://github.com/nicobailon/visual-explainer) — External skill for producing visual explanations.
