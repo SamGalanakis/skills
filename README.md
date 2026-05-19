@@ -16,7 +16,7 @@ Minimal collection of reusable coding skills.
 - [`updesign`](./updesign/SKILL.md) — Create or update `docs/design.html`.
 - [`updocs`](./updocs/SKILL.md) — Bring existing docs in sync with the code.
 - [`wholehog`](./wholehog/SKILL.md) — Implement the best end-state directly with a clean cutover and no legacy leftovers.
-- [`wholehog-delta`](./wholehog-delta/SKILL.md) — Score the gap between a current implementation and the ideal wholehog end-state.
+- [`wholehog-score`](./wholehog-score/SKILL.md) — Score how close a current implementation is to the ideal wholehog end-state (higher = closer).
 - [`yolopush`](./yolopush/SKILL.md) — Stage, commit, push to staging, merge to main, and return to staging.
 
 ## External
