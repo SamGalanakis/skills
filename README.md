@@ -6,10 +6,12 @@ Minimal collection of reusable coding skills.
 
 - [`clankermerge`](./clankermerge/SKILL.md) — Controlled interactive rebase/merge: auto-resolve obvious conflicts, ask one compact question per real decision.
 - [`complexitysmash`](./complexitysmash/SKILL.md) — Audit a codebase for systemic complexity and high-leverage simplifications.
+- [`cupel`](https://cupel.money/) — Internal skill for investing research, theses, watchlists, and decision journaling.
 - [`datastar`](./datastar/SKILL.md) — Build HTML-first reactive web apps with Datastar and Rust backends.
 - [`ghmonitor`](./ghmonitor/SKILL.md) — Monitor GitHub Actions runs and fix failures.
 - [`localref`](./localref/SKILL.md) — Clone or download external references locally for research.
 - [`performancesmash`](./performancesmash/SKILL.md) — Audit systems for real performance bottlenecks and high-leverage optimizations.
+- [`pilcrow`](https://pilcrow.ink/) — Internal skill for prose editing, linting, and writing workflows.
 - [`spring-cleaning`](./spring-cleaning/SKILL.md) — Do a full codebase cleanup and restructuring pass.
 - [`spacetimedb`](./spacetimedb/SKILL.md) — Build, model, secure, test, and deploy SpacetimeDB v2.1.0 systems with Rust server modules and Rust clients.
 - [`uparchitecture`](./uparchitecture/SKILL.md) — Create or update `docs/architecture.html`.
@@ -22,6 +24,6 @@ Minimal collection of reusable coding skills.
 ## External
 
 - [`impeccable`](https://github.com/pbakaus/impeccable) — External skill collection by Paul Bakaus.
-- [`pilcrow`](https://pilcrow.ink/) — External skill for prose editing, linting, and writing workflows.
 - [`surrealdb`](https://surrealdb.sh/) — External skill for SurrealDB guidance and workflows.
+- [`thermo-nuclear-code-quality-review`](https://github.com/cursor/plugins/blob/3347cbab5b54136f6fba0994c3a01a56f7fb7fca/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md) — External Cursor skill for strict maintainability and code quality reviews.
 - [`visual-explainer`](https://github.com/nicobailon/visual-explainer) — External skill for producing visual explanations.
