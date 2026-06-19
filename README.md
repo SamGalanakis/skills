@@ -16,6 +16,7 @@ Minimal collection of reusable coding skills.
 - [`spacetimedb`](./spacetimedb/SKILL.md) — Build, model, secure, test, and deploy SpacetimeDB v2.1.0 systems with Rust server modules and Rust clients.
 - [`updesign`](./updesign/SKILL.md) — Create or update `docs/design.html`.
 - [`updocs`](./updocs/SKILL.md) — Bring existing docs in sync with the code.
+- [`visual-explainer`](./visual-explainer/SKILL.md) — Turn a topic, plan, codebase, or feature into a single self-contained HTML visual explainer with diagrams, wireframes, and annotated code.
 - [`wholehog`](./wholehog/SKILL.md) — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - [`wholehog-score`](./wholehog-score/SKILL.md) — Score how close a current implementation is to the ideal wholehog end-state (higher = closer).
 - [`yolopush`](./yolopush/SKILL.md) — Stage, commit, push to staging, merge to main, and return to staging.
@@ -25,4 +26,3 @@ Minimal collection of reusable coding skills.
 - [`impeccable`](https://github.com/pbakaus/impeccable) — External skill collection by Paul Bakaus.
 - [`surrealdb`](https://surrealdb.sh/) — External skill for SurrealDB guidance and workflows.
 - [`thermo-nuclear-code-quality-review`](https://github.com/cursor/plugins/blob/3347cbab5b54136f6fba0994c3a01a56f7fb7fca/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md) — External Cursor skill for strict maintainability and code quality reviews.
-- [`visual-plan`](https://github.com/BuilderIO/skills/tree/main/skills/visual-plan) — External skill for turning text plans into rich interactive visual plans.
