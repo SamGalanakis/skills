@@ -9,7 +9,7 @@ Drive a task to a target quality bar by alternating implementation passes with i
 
 ## Roles
 
-- **Main agent (orchestrator).** Establishes scope, runs the loop, decides against the goal, relays the scorer's next steps to the implementer, detects blockers, and writes the final summary. It does not write code or assign scores itself.
+- **Main agent (orchestrator).** Establishes scope, runs the loop, decides against the goal, relays the scorer's next steps to the implementer, detects blockers, and reports progress to the user in the standardized format (see Reporting). It does not write code or assign scores itself.
 - **Implementation subagent.** Does each `wholehog` pass against the real repo. Keep one implementer across iterations (continue it with each new work list) so it retains what it already built and why.
 - **Scoring subagent.** Independently scores the current state with the `wholehog-score` skill. Spawn a **fresh** one every iteration so the judge never anchors on prior work or its own past scores.
 
@@ -32,7 +32,7 @@ Each iteration, the orchestrator:
 
 On the first iteration: if an implementation already exists, score a baseline first (scoring subagent) before delegating any changes; if building from scratch, delegate the initial implementation pass, then score.
 
-Announce each iteration to the user as a single line — `Iteration K: N/100 (goal G)` — so a long loop stays visible.
+After every scoring — before deciding whether to continue — print the standardized **iteration card** (see Reporting) so the user watches progress live.
 
 ## Delegating Implementation
 
@@ -70,20 +70,50 @@ Stop and report blocked when continuing will not productively close the gap:
 - **Iteration cap reached** without hitting the goal.
 - **Regression risk.** Another pass would harm correctness or delete something the user needs.
 
-## Output
+## Reporting
 
-**On success:**
+The orchestrator owns all user-facing output. Use these fixed templates verbatim so every run reads the same way — the score is always `N/100`, the goal is always shown, and the trajectory grows each iteration. Keep every field terse; fill `{…}` and drop nothing.
 
-- Header: `Reached N/100 (goal G) in K iterations.`
-- Trajectory: the score sequence, e.g. `62 → 81 → 93 → 96`.
-- A concise summary of what actually changed across all iterations, assembled from the implementers' reports, grouped logically, with key file paths. This is a changes summary, not a re-print of the score report.
-- One line on anything intentionally left undone (above ~92 returns diminish — say so if relevant).
+### Iteration card
 
-**On blocker:**
+Print after each scoring, before the continue/stop decision:
 
-- Best score reached, the trajectory, and the specific blocker.
-- The smallest thing that would unblock it: lower the goal, expand the scope, or relax a named constraint — and the score ceiling you expect under the current scope.
-- What was accomplished so far.
+```
+Iteration {K} — Score {N}/100   ·   goal {G}   ·   {+Δ vs prev | baseline}   ·   {status}
+Trajectory: {s1 → s2 → … → N}
+• Done this pass: {what the implementer changed, one line}
+• Top gaps:       {1–3 terse bullets of what's holding the score down}
+• Next fixes:     {numbered, optimal order, each with expected +delta if known}
+```
+
+`{status}` is one of: `on track ↑` · `slowing →` · `goal met ✓` · `blocked ✗`. On the baseline iteration write `baseline` in the delta slot and omit *Done this pass*.
+
+### Final — goal reached
+
+```
+✓ Wholehog Loop complete — {N}/100 (goal {G}, {K} iterations)
+Trajectory: {s1 → … → N}
+
+What changed
+• {grouped changes across all iterations, with key file paths}
+
+Left undone: {one line, or "nothing material — at the done-line"}
+```
+
+### Final — blocked
+
+```
+✗ Wholehog Loop blocked — best {N}/100 (goal {G}, {K} iterations)
+Trajectory: {s1 → … → N}
+
+Blocker: {which blocker, with specifics}
+To unblock: {smallest move — lower goal to ~{X} / expand scope / relax {constraint}}; expected ceiling ~{Y} under current scope.
+
+Accomplished so far
+• {grouped changes, with key file paths}
+```
+
+The *What changed* / *Accomplished so far* list is a changes summary assembled from the implementers' reports — not a re-print of the score reports.
 
 ## Guardrails
 
