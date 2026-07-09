@@ -9,6 +9,7 @@ Minimal collection of reusable coding skills.
 - [`cupel`](https://cupel.money/) — Internal skill for investing research, theses, watchlists, and decision journaling.
 - [`datastar`](./datastar/SKILL.md) — Build HTML-first reactive web apps with Datastar and Rust backends.
 - [`ghmonitor`](./ghmonitor/SKILL.md) — Monitor GitHub Actions runs and fix failures.
+- [`groundhog`](./groundhog/SKILL.md) — Mine local Claude/Codex session traces for recurring patterns and friction, then report numbered improvement recommendations (read-only until prompted).
 - [`localref`](./localref/SKILL.md) — Clone or download external references locally for research.
 - [`performancesmash`](./performancesmash/SKILL.md) — Audit systems for real performance bottlenecks and high-leverage optimizations.
 - [`pilcrow`](https://pilcrow.ink/) — Internal skill for prose editing, linting, and writing workflows.
