@@ -21,7 +21,6 @@ Minimal collection of reusable coding skills.
 - [`wholehog`](./wholehog/SKILL.md) — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - [`wholehog-loop`](./wholehog-loop/SKILL.md) — Orchestrate implement-then-score across separate subagents, looping until a target wholehog score is reached or a blocker stops it.
 - [`wholehog-score`](./wholehog-score/SKILL.md) — Score how close a current implementation is to the ideal wholehog end-state (higher = closer).
-- [`yolopush`](./yolopush/SKILL.md) — Stage, commit, push to staging, merge to main, and return to staging.
 
 ## External
 
