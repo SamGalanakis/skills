@@ -16,10 +16,11 @@ Verify what actually exists before planning the sweep — trace formats and loca
 
 ## Inputs (all optional)
 
-- **Time window.** Default: last 60 days. The user may widen ("all history") or narrow.
+- **Analysis budget.** Default: up to **500 user messages** (human-typed prompts, with their surrounding session context), walking sessions **newest-first**, going back at most **60 days**. Whichever limit hits first ends the scope. The user may raise, lower, or drop either bound ("all history", "last 2 weeks", "2000 messages").
 - **Project filter.** Default: all projects.
 - **Tool filter.** Default: every agent CLI with local traces found.
-- **Depth.** Default: sample within batches to keep cost sane. "thorough" reads everything in scope.
+
+Recent sessions matter most — they reflect current habits, current projects, and friction that is still live. Older sessions are only worth reading if the budget allows after the recent ones are covered.
 
 ## Provenance: user sessions vs agent-driven sessions
 
@@ -36,7 +37,7 @@ User sessions drive the "how the user works and what would help them" analysis. 
 The main agent orchestrates and synthesizes; readers are subagents. Write any helper code as throwaway scripts in the scratchpad — nothing is checked in and nothing outside the scratchpad is written.
 
 1. **Inventory (scripted, no LLM per file).** Write a small throwaway script that sweeps the trace trees and emits a manifest: per session — tool, project, date, provenance label, turn counts, human-message count, interrupt count, permission mode, size/duration. Thousands of files should be inventoried by code, not by reading each one.
-2. **Select and shard.** Apply the scope filters, group sessions by project, and cut token-bounded batches (roughly 10–20 sessions each, splitting oversized sessions). Note explicitly what the sampling excludes.
+2. **Select and shard.** Sort sessions newest-first and take them until the analysis budget is spent — counting user messages against the message cap and stopping at the time bound. Then group the selection by project and cut token-bounded batches (roughly 10–20 sessions each, splitting oversized sessions). Note explicitly where the budget cut off and what fell outside it.
 3. **Fan out readers.** Spawn parallel reader subagents, one per batch. Each reads its sessions and returns **structured findings only**: pattern observed, frequency, session IDs, one short illustrative quote, and a suggested improvement. Give readers the friction lens below *as examples, not a checklist* — an observation that fits no listed category is exactly as welcome. Agent-driven batches get the automation-audit question instead.
 4. **Synthesize.** Dedupe findings across batches, merge frequencies, and rank by frequency × friction cost × ease of fix. A fresh synthesis subagent is worth it when finding volume is high; otherwise the orchestrator merges directly.
 5. **Report and stop.** Print the report (format below) and end the turn. Implement nothing until the user replies with numbers.
