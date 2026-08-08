@@ -10,6 +10,23 @@ abstract best practice. Extract mechanisms, not impressions: the lint table,
 the CI gate, the schema shape, the written policy. Verify every finding
 before reporting it.
 
+## Arguments
+
+Invoked bare, run the full wide round: survey everything, choose the aspects
+and references yourself. Any arguments are free-form and may mix, in any
+order:
+
+- **aspects** (e.g. `durability`, `testing`, `release engineering`) — scope
+  the round: the survey, reference picks, lens reviews, and findings focus on
+  those aspects only;
+- **references** (project names, `owner/repo`, or URLs) — include these,
+  slotting each under the aspect it best serves and filling any remaining
+  gaps yourself.
+
+Interpret ambiguous arguments sensibly (a project name is a reference; a
+quality dimension is an aspect); ask only if genuinely undecidable. Scoped
+rounds still use the exclusion map.
+
 ## The pipeline
 
 ### 1. Survey your repo
