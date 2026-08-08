@@ -67,16 +67,23 @@ cloned, drop it.
 ### 4. Extract mechanisms
 
 One reader agent per reference, all launched in parallel in the background.
-Each returns a practices brief covering what is enforceable:
+Each returns a practices brief scoped to the aspects that reference was
+picked for — extract whatever is enforceable and transferable there, not a
+fixed checklist. Good examples of the kind of thing worth extracting:
 
-- repo/workspace structure and how boundaries are enforced;
-- hygiene tooling and CI gates, quoted from config;
-- testing strategy: harness shapes, fixture conventions, snapshot policy;
-- error-handling conventions; release/versioning/deprecation policy;
-- written doctrine documents (style guides, architecture invariants) —
-  summarize their actual rules;
-- weaknesses — what not to copy;
-- a ranked top-N list of adoptable practices, one sentence each.
+- how a boundary or invariant is actually enforced (a dependency graph shape,
+  a lint config, a custom check in CI), quoted from the tree;
+- a testing harness or fixture convention that explains why their suite is
+  trusted;
+- a written doctrine document (style guide, architecture invariants, release
+  checklist) — summarize its actual rules;
+- a data-model or storage decision that sidesteps a problem you have;
+- a release/versioning/deprecation policy with teeth;
+- weaknesses — what not to copy is also a finding.
+
+Let the reference steer the brief: a release-craft reference deserves
+different questions than a durability reference. Ask each reader to end with
+a short ranked list of adoptable practices.
 
 "They care about quality" is not a finding. "They run cargo-semver-checks as
 a required PR check, decoupled from release tooling, per
