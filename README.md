@@ -13,6 +13,7 @@ Minimal collection of reusable coding skills.
 - [`localref`](./localref/SKILL.md) — Clone or download external references locally for research.
 - [`performancesmash`](./performancesmash/SKILL.md) — Audit systems for real performance bottlenecks and high-leverage optimizations.
 - [`pilcrow`](https://pilcrow.ink/) — Internal skill for prose editing, linting, and writing workflows.
+- [`prospect`](./prospect/SKILL.md) — Prospect rock-solid peer projects for improvements to your own: mine local clones for enforceable mechanisms, turn their doctrine into audit lenses, assay every finding twice, stake claims as verified tickets.
 - [`spring-cleaning`](./spring-cleaning/SKILL.md) — Do a full codebase cleanup and restructuring pass.
 - [`spacetimedb`](./spacetimedb/SKILL.md) — Build, model, secure, test, and deploy SpacetimeDB v2.1.0 systems with Rust server modules and Rust clients.
 - [`updesign`](./updesign/SKILL.md) — Create or update `docs/design.html`.
