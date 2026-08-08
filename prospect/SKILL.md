@@ -15,7 +15,8 @@ before reporting it.
 ### 1. Survey your repo
 
 Frame the repo in one paragraph: what kind of artifact it is, its scale, and
-the two or three concerns that must never break.
+the two or three concerns that must never break. These feed the aspect list
+in the next step.
 
 Then build the **exclusion map** — the ground no finding may duplicate:
 
@@ -28,20 +29,27 @@ instruction: skip anything it covers; if a finding extends an open item, name
 the item and state only the delta. This is what makes repeat runs surface new
 findings instead of re-finding known ones.
 
-### 2. Pick references
+### 2. Decompose into aspects, pick references per aspect
 
-Three categories, each answering a different question:
+List the aspects along which your project can be compared. Typical aspects:
 
-1. **Same-domain projects** — what does the market consider table stakes?
-2. **Same-language/toolchain exemplars** — what does excellence look like on
-   your stack?
-3. **Discipline exemplars from other domains** — projects known for one
-   transferable rigor (safety culture, fuzzing, release engineering) even if
-   the domain is unrelated.
+- the product category (what it is — e.g. agent SDK, CLI, database client);
+- the language and toolchain (e.g. large Rust workspace);
+- each load-bearing concern from the survey (e.g. durability, streaming,
+  concurrency, security);
+- disciplines you want to level up (e.g. testing, release engineering,
+  observability, docs).
 
-Ask the user for references they want included; fill the rest with reputable
-picks. A weak reference is still useful: "their CI never runs the test suite"
-is a negative benchmark worth reporting.
+For each aspect, pick the most respected project *for that aspect*. A
+reference earns its place by excellence at one aspect; it does not need to
+resemble your project otherwise — a database with a famous safety culture is
+a valid durability reference for a web framework. One reference can serve
+several aspects, and an aspect can have several references.
+
+Ask the user for references they want included; fill the remaining aspects
+with reputable picks and say which aspect each reference covers. A weak
+reference is still useful: "their CI never runs the test suite" is a negative
+benchmark worth reporting.
 
 ### 3. Clone references locally — always
 
