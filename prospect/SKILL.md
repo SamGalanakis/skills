@@ -131,25 +131,11 @@ a model asserted without checking; one bad claim discredits the whole batch.
 
 ## Subagent use
 
-Prospecting is a fan-out workload; run it as one.
-
-- **Tier the models.** Extraction and counting are cheap-model work
-  (reference readers, verification fan-outs). Doctrine-lens reviews and
-  verification of subtle correctness findings get the strongest models.
-  Never let a bulk fan-out inherit an expensive default model.
-- **Parallel and background by default.** All readers launch together;
-  reviewers together; verifiers together. Synthesis is the only serial step.
-  Keep working while agents run; never poll.
-- **One agent, one job.** One reader per reference; one reviewer per lens;
-  verifiers grouped by finding cluster.
-- **Self-contained prompts.** Every agent gets the repo framing, the
-  exclusion map, its scope, and an explicit output contract ("your final
-  message is raw data for synthesis — no preamble"). An agent should never
-  need a follow-up question.
-- **Right-size the fleet.** A round is roughly: N readers (one per
-  reference) + 2-3 reviewers + 2-3 verifiers + the orchestrator's own
-  hand-checks. Beyond ~15 agents, split into phases and synthesize between
-  them.
+Conduct the prospect with subagents: readers, reviewers, and verifiers are
+independent work — fan them out in parallel rather than working serially, and
+give each a self-contained prompt (repo framing, exclusion map, scope, output
+contract). Model selection and orchestration mechanics follow your
+environment's own agent guidance.
 
 ## Repeat runs
 
