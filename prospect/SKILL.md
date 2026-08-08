@@ -19,9 +19,10 @@ order:
 - **aspects** (e.g. `durability`, `testing`, `release engineering`) — scope
   the round: the survey, reference picks, lens reviews, and findings focus on
   those aspects only;
-- **references** (project names, `owner/repo`, or URLs) — include these,
-  slotting each under the aspect it best serves and filling any remaining
-  gaps yourself.
+- **references** (project names, `owner/repo`, or URLs) — these ARE the
+  reference set, slotted under the aspects they best serve. Add a reference
+  the user did not name only when a scoped aspect would otherwise have no
+  coverage, and state what you added and why so the user can strike it.
 
 Interpret ambiguous arguments sensibly (a project name is a reference; a
 quality dimension is an aspect); ask only if genuinely undecidable. Scoped
