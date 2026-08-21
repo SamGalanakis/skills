@@ -14,7 +14,6 @@ Minimal collection of reusable coding skills.
 - [`pilcrow`](https://pilcrow.ink/) — Internal skill for prose editing, linting, and writing workflows.
 - [`prospect`](./prospect/SKILL.md) — Benchmark your project against reputable peer projects: clone them locally, extract enforceable practices, audit your own code through their written doctrine, and output independently verified improvements.
 - [`spring-cleaning`](./spring-cleaning/SKILL.md) — Do a full codebase cleanup and restructuring pass.
-- [`spacetimedb`](./spacetimedb/SKILL.md) — Build, model, secure, test, and deploy SpacetimeDB v2.1.0 systems with Rust server modules and Rust clients.
 - [`visual-explainer`](./visual-explainer/SKILL.md) — Turn a topic, plan, codebase, or feature into a single self-contained HTML visual explainer with diagrams, wireframes, and annotated code.
 - [`wholehog`](./wholehog/SKILL.md) — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - [`wholehog-loop`](./wholehog-loop/SKILL.md) — Orchestrate implement-then-score across separate subagents, looping until a target wholehog score is reached or a blocker stops it.
