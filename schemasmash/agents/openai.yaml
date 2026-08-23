@@ -1,0 +1,4 @@
+interface:
+  display_name: "Schemasmash"
+  short_description: "Orchestrated read-only audit of types, data structures, schema, and wire shapes for invalid-state representations and duplicate sources of truth."
+  default_prompt: "Use $schemasmash to run a read-only, agent-orchestrated audit of this project's data representations across in-memory types, database schema, and serialized shapes. Inventory every representation cluster as a coverage contract, fan out bounded reviews for flag/optional state machines, multiple sources of truth, ordering or counts stored instead of derived, optional-field protocols, god objects and tables, stringly-typed values, layer drift, and unenforced invariants; independently verify every finding; then return a concise severity-ordered list with the target representation at each layer. Do not write code or migrations."
