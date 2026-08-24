@@ -1,6 +1,6 @@
 ---
 name: schemasmash
-description: "Run a read-only, agent-orchestrated audit of a codebase's data representations — in-memory types and data structures, database schema, and the serialized shapes between them — for states that are representable but invalid, multiple sources of truth for one fact, ordering or counts stored instead of derived, boolean-flag and nullable-field state machines, stringly-typed values, god objects and god tables, layer drift, and invariants the types or schema fail to enforce. The coordinator inventories every representation cluster as a coverage contract, fans out bounded read-only reviews, independently verifies every finding, and audits the audit before ranking. Use when the user wants a data-model or type-design review, says the domain model or schema has grown janky, is about to add a feature that touches core types or tables, or wants agent-written code checked before bad representations compound. Strictly read-only: no edits, migrations, tests, commits, or pushes."
+description: "Run a read-only, agent-orchestrated audit of a codebase's data representations — in-memory types and data structures, database schema, and the serialized shapes between them — for states that are representable but invalid, multiple sources of truth for one fact, ordering or counts stored instead of derived, boolean-flag and nullable-field state machines, stringly-typed values, god objects and god tables, layer drift, and invariants the types or schema fail to enforce. The coordinator inventories every representation cluster as a coverage contract, fans out bounded read-only reviews, independently verifies every finding, and runs one coverage check before ranking. Use when the user wants a data-model or type-design review, says the domain model or schema has grown janky, is about to add a feature that touches core types or tables, or wants agent-written code checked before bad representations compound. Strictly read-only: no edits, migrations, tests, commits, or pushes."
 ---
 
 # Schemasmash
@@ -96,31 +96,17 @@ Each worker receives this brief:
 > 4. For duplicate truths: at least one write path that updates one copy and not the other, or an explicit statement that none was found and the risk is latent.
 > 5. Consumer blast radius: the grep and the count of sites that interpret this representation; for amplification claims, the simulated feature and its touch points.
 > 6. Target representation at each affected layer, and how the layers map to each other. Give the type, not the diff.
-> 7. Smallest credible implementation scope, regression risks, and migration/compatibility concerns.
-> 8. Existing and additional validation required.
-> 9. Confidence: high, medium, or low.
+> 7. Confidence: high, medium, or low.
 
-## 3. Validate and synthesize
+## 3. Verify, deduplicate, rank
 
 Independently verify every finding against the current repository before accepting it: re-open the quoted definitions, re-run the consumer grep, and re-derive the invalid-combination count yourself.
 
-Reject, narrow, or demote findings that are vague, duplicate another finding, misunderstand intentional semantics (a deliberate denormalization with an owner is not a duplicate truth), trade representation for an unstated performance cost, or merely relocate complexity behind a new type.
+Reject, narrow, or demote findings that are vague, duplicate another finding, misunderstand intentional semantics (a deliberate denormalization with an owner is not a duplicate truth), trade representation for an unstated performance cost, or add a type without removing an invalid state or a duplicate truth.
 
-Record skips as completed coverage. Deduplicate overlapping findings and assign each accepted finding to one authoritative cluster. Promote a shape that recurs across three or more clusters to a cross-cutting pattern with one canonical fix.
+Record skips as completed coverage. Deduplicate overlapping findings and assign each accepted finding to one authoritative cluster. Promote a shape that recurs across three or more clusters to a cross-cutting pattern with one canonical fix. Continue opening bounded review batches until every inventory row is complete.
 
-Continue opening bounded review batches until every inventory row is complete.
-
-## 4. Audit the audit
-
-Before finishing, run fresh independent passes for:
-
-- coverage: representation clusters and layers missing from the inventory (config, events, caches, generated contracts, cross-service payloads);
-- duplication and ownership overlap between findings;
-- materiality and over-abstraction: findings that add a type without removing an invalid state or a duplicate truth;
-- evidence completeness: every finding has quoted definitions, concrete invalid states, consumer counts, and a target at each layer;
-- dependency-aware priority ranking: which representation fixes unblock or subsume others.
-
-If the coverage pass finds a real omission, add an explicit cluster row and audit it. Do not hide it by broadening a previously completed boundary.
+Then run one fresh independent coverage pass: given the repository and the inventory, which representation clusters or layers (config, events, caches, generated contracts, cross-service payloads) are missing? If it finds a real omission, add an explicit cluster row and audit it; do not hide it by broadening a completed boundary.
 
 ## Output
 
@@ -137,7 +123,7 @@ Present findings first as a concise list ordered by severity.
 
 End with at most one line naming which finding to fix first and why, then stop.
 
-The audit is complete only when every cluster has a finding or an explicit skip, every finding has full evidence and a target at each layer, duplicates and weak abstractions are removed, priorities are internally consistent, and the repository remains unchanged.
+The audit is complete only when every cluster has a finding or an explicit skip, every accepted finding was re-verified by you with a target at each layer, duplicates are removed, and the repository remains unchanged.
 
 ## Relationship To Other Skills
 
