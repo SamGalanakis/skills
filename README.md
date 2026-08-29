@@ -10,6 +10,7 @@ Minimal collection of reusable coding skills.
 - [`ghmonitor`](./ghmonitor/SKILL.md) — Monitor GitHub Actions runs and fix failures.
 - [`groundhog`](./groundhog/SKILL.md) — Mine local Claude/Codex session traces for recurring patterns and friction, then report numbered improvement recommendations (read-only until prompted).
 - [`localref`](./localref/SKILL.md) — Clone or download external references locally for research.
+- [`moonshot`](./moonshot/SKILL.md) — Strip a feature to first principles, hunt the frontier wherever it lives (research, legendary implementations, other industries), and return ranked, implementable approaches the project has left untapped.
 - [`performancesmash`](./performancesmash/SKILL.md) — Audit systems for real performance bottlenecks and high-leverage optimizations.
 - [`pilcrow`](https://pilcrow.ink/) — Internal skill for prose editing, linting, and writing workflows.
 - [`prospect`](./prospect/SKILL.md) — Benchmark your project against reputable peer projects: clone them locally, extract enforceable practices, audit your own code through their written doctrine, and output independently verified improvements.
