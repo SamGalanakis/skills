@@ -65,10 +65,30 @@ Do not fan out until these exist. They make everything after them cheap.
   follow their old plan.
 - Worker specs are self-contained: context, exact files, steps, out of scope,
   verify commands, deliver steps. Include the repo's commit and PR rules.
-- **Decompose along blockers and file ownership**, not along headcount.
+- **Decompose along hard dependencies and file ownership**, not along
+  headcount (see *Plan by dependencies*).
 - Before dispatching, ask whether the task is already fixed, already moot
   (its code is being deleted), or folded into planned work. Stale-ticket
   sweeps are cheap worker tasks.
+
+## Plan by dependencies, never by time
+
+Agents have no calendar. A plan is a graph; a status report says what is
+ready, in flight, or blocked, and on which edge. No dates, no ETAs.
+
+- **Mark every edge HARD or SOFT.** HARD: the code cannot be written until X
+  exists. SOFT: file overlap, "after it merges", "after review", habit. Most
+  edges are soft. Break them.
+- **Break soft edges three ways:** write the interface down and build against
+  it; stack work on the unmerged branch; split along file ownership.
+- **Freeze interfaces first.** A short design doc per seam, written before the
+  fan-out, unblocks every lane that builds against it.
+- **Staff the critical path.** It is the longest chain of hard edges. Put your
+  strongest lanes on its unsplittable nodes, more than one where you can;
+  send everything off the path to cheap workers.
+- **One question per node, every round:** is it unblocked? Then it has a lane
+  now.
+- **Measure progress in critical-path nodes cleared,** not merges or tickets.
 
 ## Parallelism
 
