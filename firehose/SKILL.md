@@ -19,7 +19,8 @@ converging. **Intermediate states may be broken; the end state may not.**
 3. **The mode has an off-switch.** Firehose is for pre-release or pre-stable
    phases. When there is real state to protect (a production release, user
    data, a stable API), durability gates turn back on. Write down where the
-   switch is before you start.
+   switch is before you start. Until the switch, format-version bumps and
+   durability gates are off: every stored format is reset once at the release.
 
 ## Before scaling up
 
@@ -29,9 +30,9 @@ Do not fan out until these exist. They make everything after them cheap.
   readable summary, with a sampled or quick mode for agents. Agents converge on
   whatever the oracle rewards, so a weak oracle means fast convergence on wrong
   code.
-- **A held-out suite.** Tests or fixtures that workers never see or edit, run only
-  at milestone gates. Agents pass visible tests near-universally; the hidden
-  gap is where the real bugs are.
+- **A release gate.** The full suite plus the milestone checks (durability,
+  conformance, E2E), run on main when the milestone's work is done. It need
+  not be secret; it is simply never on the per-merge path.
 - **The ledger.** All work state lives outside sessions: tickets (one checkable
   outcome each), a decision log, and a short "for the human" review file. Any
   session can die or be replaced and resume from the ledger.
@@ -58,10 +59,10 @@ Do not fan out until these exist. They make everything after them cheap.
 
 - Every task has a **machine-checkable "done when"**. If you cannot say how a
   test or command proves it, the task is not ready to dispatch.
-- **One task per session.** Kill the session when the task is done and start a
-  fresh one for the next. A resumed session is only for "continue the same
-  task". When the instructions change, start a fresh session with a
-  self-contained spec, because resumed sessions tend to follow their old plan.
+- **Reuse warm sessions.** An idle session that just finished similar work is
+  better than a cold one: route related tasks to it. Start a fresh session only
+  when the instructions change substantially, because resumed sessions tend to
+  follow their old plan.
 - Worker specs are self-contained: context, exact files, steps, out of scope,
   verify commands, deliver steps. Include the repo's commit and PR rules.
 - **Decompose along blockers and file ownership**, not along headcount.
@@ -88,8 +89,10 @@ Do not fan out until these exist. They make everything after them cheap.
 
 ## Merging
 
-- **Merge on fast gates only:** build, lint, formatting and the cheap policy
-  checks. Long suites never block a merge. A PR with an already-FAILED check
+- **PR CI runs only fast gates plus the tests the change affects:** build,
+  lint, formatting, the cheap policy checks. Full suites and E2E run on main on
+  a schedule, never per PR, so they don't eat shared CI capacity. Long suites
+  never block a merge. A PR with an already-FAILED check
   still waits.
 - Run an **automatic merger** (see `scripts/fast-merger.sh`). It admin-merges
   any ready PR that passes the fast gates. Authors opt out with a draft or a
@@ -105,18 +108,19 @@ Do not fan out until these exist. They make everything after them cheap.
 ## Keeping main usable
 
 - Run the **full suite on main on a schedule** (e.g. hourly) instead of per PR.
-- On red, identify the failing test and the culprit change, and route it to
-  **the author to fix forward**. Revert only when the fix is slower to verify
-  than the revert, or main is unusable for everyone.
-- Keep a **green snapshot branch** that advances only when main's full run is
-  green. Milestones and releases cut from it, never from main directly.
+- On red, a **culprit-finder agent** (a cheap worker) identifies the failing
+  test and the change that caused it, and routes it to **the author to fix
+  forward**. Revert only when the fix is slower to verify than the revert, or
+  main is unusable for everyone.
 - If main has been red for more than one full-run cycle on the same failure,
   escalate: revert, or put a frontier lane on it.
+- **Cutting the milestone:** when its work is done, stop feature merges, fix
+  the remaining reds, run the release gate, and cut from main.
 
 ## Verification
 
-- **Workers never weaken tests.** No edited or deleted assertions, no longer
-  timeouts as a "fix", no blind retries. A flake gets fixed deterministically
+- **Tests are the oracle.** Don't make a failing test pass by weakening it: no
+  longer timeouts as a "fix", no blind retries. A flake gets fixed deterministically
   (wait on events or state, not wall-clock time) or quarantined with a ticket
   to its owner.
 - **Repeat-run new and reshaped tests** (≥20× for anything racy) before marking
@@ -127,8 +131,8 @@ Do not fan out until these exist. They make everything after them cheap.
 - **Review sparingly.** One independent review only for hard,
   durability-critical or first-of-kind changes. Findings get fixed forward
   after merge; never do a second review round.
-- **The milestone gate is where quality is enforced:** the full suite, the
-  held-out suite and the durability checks all green on the snapshot branch.
+- **The release gate is where quality is enforced:** the full suite and the
+  durability checks all green on main at the cut.
 - **Test compute is a shared, budgeted resource.** Size CI reservations from
   measurements, keep expensive suites off the merge path, and track the
   known-expensive tests explicitly.
@@ -178,8 +182,8 @@ Run it on a timer, e.g. every 30 min:
 - A swarm avoiding the hard core code. Fix: assign the core explicitly to a
   frontier lane.
 - Main drifting red for long stretches, or regression cascades. Fix: the
-  attributable routing and snapshot branch above.
-- Repeat-run results that tested nothing, and tests quietly weakened.
+  culprit-finder routing above.
+- Repeat-run results that tested nothing.
 - Cost blow-ups from auto-merging with no cost cap.
 - Human burnout. Keep the human's queue short and asynchronous.
 
