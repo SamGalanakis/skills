@@ -121,7 +121,9 @@ Do not fan out until these exist. They make everything after them cheap.
   to its owner.
 - **Repeat-run new and reshaped tests** (≥20× for anything racy) before marking
   ready, and **confirm the runs actually executed.** A name filter that matches
-  nothing reports N/N green.
+  nothing reports N/N green, and a sharded test binary reports a pass from every
+  shard that ran zero tests. Use full test paths, disable sharding, and check
+  that each run's log says a test actually passed.
 - **Review sparingly.** One independent review only for hard,
   durability-critical or first-of-kind changes. Findings get fixed forward
   after merge; never do a second review round.
