@@ -2,7 +2,7 @@
 # firehose fast-gate merger: admin-merges ready PRs as soon as the FAST gates pass.
 # Usage: REPO=owner/name FAST="Lint,Build" HOURS=12 bash fast-merger.sh
 #   REPO   GitHub repo (required)
-#   FAST   comma-separated check names that must be SUCCESS (the fast gates)
+#   FAST   comma-separated check names that must pass or be skipped (the fast gates)
 #   HOURS  how long to run (default 12)
 #   BASE   base branch (default main)
 # Merges when: non-draft, MERGEABLE, no `hold` label, no AI attribution in its
@@ -34,7 +34,11 @@ for p in json.load(open(sys.argv[1])):
              for c in (p["statusCheckRollup"] or [])}
     if any(v in ("FAILURE", "CANCELLED", "TIMED_OUT", "ERROR") for v in concl.values()):
         continue
-    if not all(concl.get(g) == "SUCCESS" for g in fast):
+    # A fast gate may be skipped by a path-scoped CI plan, but at least one must
+    # have run, and none may be pending or failed.
+    if not all(concl.get(g) in ("SUCCESS", "SKIPPED", "NEUTRAL") for g in fast):
+        continue
+    if not any(concl.get(g) == "SUCCESS" for g in fast):
         continue
     print(p["number"], p["id"])
 PY
