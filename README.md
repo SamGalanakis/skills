@@ -7,6 +7,7 @@ Minimal collection of reusable coding skills.
 - [`clankermerge`](./clankermerge/SKILL.md) — Controlled interactive rebase/merge: auto-resolve obvious conflicts, ask one compact question per real decision.
 - [`complexitysmash`](./complexitysmash/SKILL.md) — Audit a codebase for systemic complexity and high-leverage simplifications.
 - [`cupel`](https://cupel.money/) — Internal skill for investing research, theses, watchlists, and decision journaling.
+- [`firehose`](./firehose/SKILL.md) — Run one project at maximum wall-clock throughput with many parallel agents: frontier planner + cheap workers, a durable ledger, merge on fast gates, fix forward on a slightly-red main, quality enforced at milestone boundaries.
 - [`ghmonitor`](./ghmonitor/SKILL.md) — Monitor GitHub Actions runs and fix failures.
 - [`groundhog`](./groundhog/SKILL.md) — Mine local Claude/Codex session traces for recurring patterns and friction, then report numbered improvement recommendations (read-only until prompted).
 - [`localref`](./localref/SKILL.md) — Clone or download external references locally for research.
