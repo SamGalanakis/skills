@@ -65,8 +65,8 @@ Do not fan out until these exist. They make everything after them cheap.
   follow their old plan.
 - Worker specs are self-contained: context, exact files, steps, out of scope,
   verify commands, deliver steps. Include the repo's commit and PR rules.
-- **Decompose along hard dependencies and file ownership**, not along
-  headcount (see *Plan by dependencies*).
+- **Decompose along real dependencies**, not along headcount or file
+  ownership (see *Parallelism*).
 - Before dispatching, ask whether the task is already fixed, already moot
   (its code is being deleted), or folded into planned work. Stale-ticket
   sweeps are cheap worker tasks.
@@ -80,7 +80,7 @@ ready, in flight, or blocked, and on which edge. No dates, no ETAs.
   exists. SOFT: file overlap, "after it merges", "after review", habit. Most
   edges are soft. Break them.
 - **Break soft edges three ways:** write the interface down and build against
-  it; stack work on the unmerged branch; split along file ownership.
+  it; stack work on the unmerged branch; split along the seam.
 - **Freeze interfaces first.** A short design doc per seam, written before the
   fan-out, unblocks every lane that builds against it.
 - **Staff the critical path.** It is the longest chain of hard edges. Put your
@@ -92,10 +92,41 @@ ready, in flight, or blocked, and on which edge. No dates, no ETAs.
 
 ## Parallelism
 
-- **Launch everything unblocked now.** No slot quotas; parallelism is limited
-  only by blockers and file overlap.
-- **One writer per area at a time; reads fan out freely.** Separate worktrees
-  stop file collisions but not design collisions.
+Parallelize like a good team: optimize for wall time.
+
+1. **Always take the free parallelism.** Anything already independent runs
+   at once, never queued behind something it does not need: separate crates,
+   separate tickets, audits, tests, docs, the per-item pieces of a sweep.
+2. **Buy parallelism where it is cheap.** When one piece needs what another
+   produces and splitting clearly finishes sooner, pin the seam first
+   (interface, types, behaviour, the check that proves it). Then both sides
+   build at once against it, on a stub or stacked on the producer's unmerged
+   branch.
+3. **Do not split what does not split.** If carving a task up costs more
+   coordination than it saves, one worker does it whole. Some tasks fall
+   naturally into ten small ones; some are one tight piece of reasoning.
+4. **Name the integrator.** Usually whoever lands second and rebases; for a
+   wide change, one worker owns the final merge. A merge costs far less than
+   waiting.
+
+Sharing files or a subsystem is never by itself a reason to serialize.
+Serialize only where the design cannot be pinned yet (decide it first) or
+where two workers would rewrite the same logic.
+
+Examples:
+- Storage cutover: pin the new store trait and table shape; each store
+  backend, the engine callers, the conformance laws and the differential then
+  proceed in parallel, and one worker integrates.
+- A consumer of new data: pin the method it reads; build it on a stub or on
+  the producer's branch.
+- API + UI: pin the request, response and error schema; endpoint and UI build
+  in parallel against shared fixtures.
+- Do not split: one subtle concurrency fix in one function. Two workers would
+  only collide.
+
+Also:
+
+- **Launch everything unblocked now.** No slot quotas.
 - **Remove hot files.** Files everyone edits (registries, generated
   inventories, shared expectation tables, changelogs) serialise the swarm.
   Shard them per change, derive them, or batch the conflicting work into one
@@ -198,7 +229,10 @@ Run it on a timer, e.g. every 30 min:
 
 - Agents implementing the same design differently. Fix: the planner writes the
   design down first.
-- Planners fighting over files. Fix: ownership and one writer per area.
+- Two workers rewriting the same logic. Fix: pin the seam first, or give it
+  to one worker.
+- Independent work queued behind one big unit. Fix: pin its seams, fan out,
+  and stack dependents on its unmerged branch.
 - A swarm avoiding the hard core code. Fix: assign the core explicitly to a
   frontier lane.
 - Main drifting red for long stretches, or regression cascades. Fix: the
