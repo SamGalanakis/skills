@@ -1,0 +1,7 @@
+interface:
+  display_name: "Sounding"
+  short_description: "Read where a project stands and return a plan of which skills to run now, which later, and why the rest can wait."
+  default_prompt: "Use $sounding to read where this project stands (the conversation, upcoming milestones and tickets, recent changes and trouble, and what has already been run), then return a plan of which installed skills to run now and why, what to run next, why the rest are deferred, and any kind of pass no installed skill covers. Advise only; run nothing."
+
+policy:
+  allow_implicit_invocation: false

@@ -17,6 +17,7 @@ Minimal collection of reusable coding skills.
 - [`pilcrow`](https://pilcrow.ink/) — Internal skill for prose editing, linting, and writing workflows.
 - [`prospect`](./prospect/SKILL.md) — Benchmark your project against reputable peer projects: clone them locally, extract enforceable practices, audit your own code through their written doctrine, and output independently verified improvements.
 - [`schemasmash`](./schemasmash/SKILL.md) — Orchestrated read-only audit of types, data structures, schema, and serialized shapes for invalid-but-representable states, duplicate sources of truth, and invariants the representation fails to enforce.
+- [`sounding`](./sounding/SKILL.md) — Read where a project stands (conversation, milestones, tickets, recent change and trouble, past runs) and return a plan of which skills to run now, which later, and why the rest wait. Flags missing kinds of pass. Advisory, explicit invocation only.
 - [`spring-cleaning`](./spring-cleaning/SKILL.md) — Do a full codebase cleanup and restructuring pass.
 - [`visual-explainer`](./visual-explainer/SKILL.md) — Turn a topic, plan, codebase, or feature into a single self-contained HTML visual explainer with diagrams, wireframes, and annotated code.
 - [`wholehog`](./wholehog/SKILL.md) — Implement the best end-state directly with a clean cutover and no legacy leftovers.
