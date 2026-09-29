@@ -158,6 +158,18 @@ Also:
   affects. The scheduled full run on main catches the rest, and it gets fixed
   forward. A lane that keeps re-running its full suite to catch up with main is
   chasing, and chasing never lands.
+- **Gate once, on final code, through the project's build driver.** Workers
+  run the workspace-wide lint or type check once, on the finished change,
+  before the first landing attempt, and never again because main moved. The
+  landing loop is rebase, build, push; a rejected push loops, and there is no
+  hold or landing window to ask for. All builds and tests go through the
+  project's shared driver and cache (for example its Bazel or remote-cache
+  wrapper), never a raw local toolchain call that bypasses them and redoes
+  work the pool already has. Scope test runs to the affected targets.
+- **Put shared mechanics in the one place every worker reads** (the worker
+  launcher's preamble or the repo's agent instructions), not in reminder
+  messages to individual lanes. When a round finds a lane wasting gates,
+  fix that shared text so the next lane never needs the note.
 - Batch size is free. What matters is **attributability**: every failure must
   map back to a change and its author.
 - **Don't let AI attribution trailers leak into commits or PR text** when the
@@ -218,7 +230,10 @@ Run it on a timer, e.g. every 30 min:
 4. Answer lead and lane questions; decide or escalate.
 5. Unowned or stale tickets: staff them, fold them, or close them with
    evidence.
-6. Clean up forks and worktrees of merged work. Log anything noteworthy to the
+6. Audit running workers for waste: raw toolchain calls that bypass the
+   shared driver, gates re-run after a clean rebase, suites broader than the
+   change. Fix the shared worker text, then nudge the offenders.
+7. Clean up forks and worktrees of merged work. Log anything noteworthy to the
    run notes.
 
 ## Resilience
