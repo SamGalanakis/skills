@@ -151,6 +151,13 @@ Also:
 - **Drafts are for work that is not finished.** Once local verification is
   solid, mark the PR ready immediately. Never leave finished work parked
   waiting for a review round.
+- **Never re-run gates just because main moved.** Once a branch's gates are
+  green, a clean rebase or merge onto newer main needs only a build. Re-run
+  tests only when the merge produced real changes: a conflict resolved in
+  logic, not in generated files. Then re-run only the tests the resolved code
+  affects. The scheduled full run on main catches the rest, and it gets fixed
+  forward. A lane that keeps re-running its full suite to catch up with main is
+  chasing, and chasing never lands.
 - Batch size is free. What matters is **attributability**: every failure must
   map back to a change and its author.
 - **Don't let AI attribution trailers leak into commits or PR text** when the
