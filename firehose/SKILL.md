@@ -203,11 +203,12 @@ Also:
   longer timeouts as a "fix", no blind retries. A flake gets fixed deterministically
   (wait on events or state, not wall-clock time) or quarantined with a ticket
   to its owner.
-- **Repeat-run new and reshaped tests** (≥20× for anything racy) before marking
-  ready, and **confirm the runs actually executed.** A name filter that matches
-  nothing reports N/N green, and a sharded test binary reports a pass from every
-  shard that ran zero tests. Use full test paths, disable sharding, and check
-  that each run's log says a test actually passed.
+- **Run new and changed tests once, and confirm they actually executed.** No
+  repeat runs for confidence or flake-hunting: main's scheduled full run is the
+  oracle, and flakes it surfaces get fixed forward. A name filter that matches
+  nothing reports N/N green, and a sharded test binary reports a pass from
+  every shard that ran zero tests. Use full test paths and check that the log
+  says a test actually passed.
 - **Review sparingly.** One independent review only for hard,
   durability-critical or first-of-kind changes. Findings get fixed forward
   after merge; never do a second review round.
@@ -277,7 +278,7 @@ Run it on a timer, e.g. every 30 min:
   frontier lane.
 - Main drifting red for long stretches, or regression cascades. Fix: the
   culprit-finder routing above.
-- Repeat-run results that tested nothing.
+- Green results that executed no tests.
 - Cost blow-ups from auto-merging with no cost cap.
 - Human burnout. Keep the human's queue short and asynchronous.
 - The whole run idling behind one unanswered question. Fix: decide, log it
