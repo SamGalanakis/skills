@@ -42,7 +42,8 @@ Do not fan out until these exist. They make everything after them cheap.
 ## Roles
 
 - **Human:** sets direction and rules on genuine scope or taste questions,
-  asynchronously and in batches. Never a blocker.
+  asynchronously and in batches, by reviewing the orchestrator's revisit
+  list. Never a blocker: the orchestrator never waits on an answer.
 - **Orchestrator (you):** runs rounds, routes work, makes design calls not
   reserved for the human, keeps the ledger honest. Reads summaries, not
   transcripts. Gets notified; does not poll in a loop.
@@ -177,11 +178,20 @@ Also:
 
 ## Keeping main usable
 
-- Run the **full suite on main on a schedule** (e.g. hourly) instead of per PR.
-- On red, a **culprit-finder agent** (a cheap worker) identifies the failing
-  test and the change that caused it, and routes it to **the author to fix
-  forward**. Revert only when the fix is slower to verify than the revert, or
-  main is unusable for everyone.
+- Run the **full suite on main on a schedule** instead of per PR. Pick the
+  interval so a run is still current when it finishes: when main moves fast
+  (dozens of commits per hour), every few hours, not hourly.
+- **Don't overchase red main.** Two classes:
+  - *Breaks everyone* (compile, lint, schema, policy gates): fix now with one
+    small cheap lane. The per-push compile and the land checks surface these
+    within minutes, well before the full run.
+  - *Test reds*: a **culprit-finder agent** (a cheap worker, never a frontier
+    model) maps each to the change that caused it and routes it to **the
+    author to fix forward**, on that change's ticket. No dedicated lane unless
+    it is on the critical path or a durability bug. Revert only when the fix
+    is slower to verify than the revert, or main is unusable for everyone.
+- Skip triage of a run whose head is already superseded by known fixes;
+  triaging every other run is plenty.
 - If main has been red for more than one full-run cycle on the same failure,
   escalate: revert, or put a frontier lane on it.
 - **Cutting the milestone:** when its work is done, stop feature merges, fix
@@ -213,9 +223,17 @@ Also:
   the ticket. Big design calls: the orchestrator decides (optionally after a
   second-model critique), logs the call with its rationale and how reversible
   it is, and adds it to the human's review file.
-- Batch the questions that really need the human, and ask them one at a time
-  with a recommendation. Put findings from research in front of them, not
-  opinions.
+- **Never use a blocking question tool during a firehose run** (one that
+  stops the session until the human answers). A pending answer can stall
+  every lane for hours. Decide, act on the decision immediately, and append
+  it to a "for the human to revisit" list in the review file: the call, the
+  recommended alternative, the evidence, how reversible it is, and what
+  revisiting would cost. The human reviews that list asynchronously and
+  overrides when they want.
+- Ask only when the action is irreversible or outward-facing and has no
+  standing grant (publishing, pushing to someone else's repo, deleting
+  shared state). Even then, park just that one action and keep every other
+  lane moving.
 - Record standing human rulings where every future session will read them
   (project memory or instructions), so they are never re-litigated.
 
@@ -262,6 +280,8 @@ Run it on a timer, e.g. every 30 min:
 - Repeat-run results that tested nothing.
 - Cost blow-ups from auto-merging with no cost cap.
 - Human burnout. Keep the human's queue short and asynchronous.
+- The whole run idling behind one unanswered question. Fix: decide, log it
+  for revisit, move on.
 
 ## Don't
 
