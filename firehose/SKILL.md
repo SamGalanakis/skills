@@ -159,6 +159,12 @@ Also:
   affects. The scheduled full run on main catches the rest, and it gets fixed
   forward. A lane that keeps re-running its full suite to catch up with main is
   chasing, and chasing never lands.
+- **The land step is the last line against a red main.** Before every push it
+  runs the workspace-wide compile/lint aggregate (all crates, examples and test
+  targets) on the rebased tree, and refuses a red push. A lane's own gate is not
+  enough: workers scope checks, and two clean changes can combine into a red
+  main. Pair it with a stall alarm: no new commit on main for ~40 min while
+  lanes run wakes the orchestrator.
 - **Gate once, on final code, through the project's build driver.** Workers
   run the workspace-wide lint or type check once, on the finished change,
   before the first landing attempt, and never again because main moved. The
