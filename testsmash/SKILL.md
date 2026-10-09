@@ -1,11 +1,11 @@
 ---
 name: testsmash
-description: "Run an agent-orchestrated audit of a codebase's whole test and eval approach. Catalogs every test as delete (frivolous or tautological), unclear, or keep; reviews expect and snapshot, property, fuzz, simulation, chaos and soak, e2e, and eval harnesses as systems and proposes extensions where real gaps exist; and proposes new approaches (types, expect tests, property, model-based, differential, metamorphic, fuzz, deterministic simulation, chaos, soak and load, replay, mutation, contract, formal methods, evals) where they fit the code. The coordinator inventories every test as a coverage contract, fans out catalog, harness, gap and approach agents sized to the repo, independently verifies every deletion and every gap, then ranks. Use when the user wants a test-suite audit, says the tests are slop, bloated, or agent-written, wants to know whether a green suite means anything, or wants better eval infrastructure. Changes nothing in the repo: no edits, commits, or pushes; mutation probes run only in a throwaway copy."
+description: "Run an agent-orchestrated audit of a codebase's whole test and eval approach. Catalogs every test as delete (catches no real bug, duplicated, or tautological), unclear, or keep (only tests that alone catch a real bug); reviews expect and snapshot, property, fuzz, simulation, chaos and soak, e2e, and eval harnesses as systems and proposes extensions where real gaps exist; and proposes new approaches (types, expect tests, property, model-based, differential, metamorphic, fuzz, deterministic simulation, chaos, soak and load, replay, mutation, contract, formal methods, evals) where they fit the code. The coordinator inventories every test as a coverage contract, fans out catalog, harness, gap and approach agents sized to the repo, independently verifies every deletion and every gap, then ranks. Use when the user wants a test-suite audit, says the tests are slop, bloated, or agent-written, wants to know whether a green suite means anything, or wants better eval infrastructure. Changes nothing in the repo: no edits, commits, or pushes; mutation probes run only in a throwaway copy."
 ---
 
 # Testsmash
 
-Audit what the suite can catch, not what it executes. A test is worth the plausible defects it fails on, minus what it costs to run, read, and keep green. Agents are rewarded for a green suite and a coverage number, so they write tests that mirror the implementation: they pass today, pass after the feature is deleted, and bury the few tests that matter. Coverage counts execution; only an independent oracle counts as checking.
+Audit what the suite can catch, not what it executes. A test is worth the real bugs it alone catches, minus what it costs to run, read, and keep green. Keep only tests that would catch a real bug; everything else is cost. Agents are rewarded for a green suite and a coverage number, so they write tests that mirror the implementation: they pass today, pass after the feature is deleted, and bury the few tests that matter. Coverage counts execution; only an independent oracle counts as checking.
 
 Tests have a second job: showing behavior to the humans and agents who must understand a change. A well-chosen example, or a readable trace committed beside the code, turns a logic diff into a behavior diff a reviewer can read. Credit that, and scale scrutiny to what a defect in that code would cost.
 
@@ -13,21 +13,24 @@ Audit only. Do not edit, commit, or push. Running the suite and read-only comman
 
 You are the coordinator. Continue until every test has a verdict and the final audit is validated.
 
-## The Three Questions
+## The Four Questions
 
 Ask them of every test, at every tier:
 
-1. **Which plausible defect makes this fail?** Name the mutant. No answer means the test checks nothing.
-2. **Where does the expected value come from?** A spec, a hand-derived value, a reference implementation, or an invariant is an oracle. The code under test, a helper it shares, a stub, or an unread snapshot is a mirror.
-3. **What breaks it that is not a defect?** A test that fails on a behavior-preserving refactor taxes every change and trains people to re-bless.
+1. **Which real bug does this catch?** Name it as a bug a competent engineer or agent would plausibly write here: an off-by-one at this boundary, a missed variant of this enum, a reordered write, a dropped error, a wrong unit, a past regression (cite it). An arbitrary mutation nobody would write ("negate the condition", "return early", "invert the empty-list branch") is not a real bug. No real bug means the test catches nothing.
+2. **Is it the only test that catches it?** Search the suite, at every tier, for another surviving test that fails on the same bug. If one exists, this test's marginal value is zero: `duplicate`, or `merge` its distinct inputs into the survivor.
+3. **Where does the expected value come from?** A spec, a hand-derived value, a reference implementation, or an invariant is an oracle. The code under test, a helper it shares, a stub, or an unread snapshot is a mirror.
+4. **What breaks it that is not a defect?** A test that fails on a behavior-preserving refactor taxes every change and trains people to re-bless.
 
 ## Verdicts
 
-- **delete**: no plausible defect fails it, or its oracle is a mirror. Give a reason code and the surviving mutant.
-- **unclear**: intent cannot be recovered from the test, its history, or the code, or its value depends on a fact you cannot establish. State the one question that would settle it.
-- **keep**: name the behavior it protects and one mutant it kills. Optionally `strengthen` (what assertion is missing) or `merge` (into which test).
+- **keep** is earned, never defaulted. It needs all three: (a) a named real bug (question 1); (b) evidence that no other surviving test catches it (question 2: name what you searched); (c) a cost worth paying in runtime, flakiness, and refactor tax. "Behavior protected" describes the bug in your own words; restating the test name is not an answer. Optionally `strengthen` (what assertion is missing) or `merge` (into which test).
+- **delete** is the default for any test that fails (a), (b), or (c), or whose oracle is a mirror. Give a reason code and the real bug it misses or the test that already catches it.
+- **unclear** only when intent genuinely cannot be recovered *and* the test guards code where a defect is expensive: durable state, persistence and replay, crash recovery, money, security and trust boundaries. State the one question that would settle it. Anywhere else, unproven value is `delete`.
 
-A bad test of important behavior is `delete` plus a gap entry, never `keep`. Unproven is `unclear`, never `delete`: a wrong deletion costs more than a wrong keep.
+A bad test of important behavior is `delete` plus a gap entry, never `keep`. Deletion is cheap to undo; a suite padded with tests that catch nothing costs every change, forever.
+
+Static predictions do not count alone. Every catalog worker runs real mutation probes on a fixed random sample of its keeps (at least 10%, at least 15), each applying the named real bug and running the test by exact selector, and reports how many static "killed" claims held. If more than one in five failed, re-judge the whole lane. A lane keeping more than 85% re-reads its keeps adversarially before submitting, asking of each: would I bet a real bug on this? That is a trigger to look again, not a quota.
 
 Reason codes for `delete`:
 
@@ -40,7 +43,8 @@ Reason codes for `delete`:
 | `tests-the-platform` | getters, constructors, derives, enum variants exist, stdlib or framework behavior, facts the type system already guarantees |
 | `impl-lock` | asserts call order, private state, or exact log text; fails on refactor, passes on bug |
 | `blind-snapshot` | captured output nobody could review: huge, noisy, unformatted, or nondeterministic; re-blessed in bulk with the change that moved it |
-| `duplicate` | same path and same oracle as another test; cases that add no new input partition |
+| `duplicate` | another surviving test catches the same real bug; same path and same oracle; cases that add no new input partition |
+| `implausible-mutant` | the only mutants it kills are ones nobody would write; it catches no real bug |
 | `dead` | exercises code unreachable from production |
 
 Example tests are not the lesser tier. Software is brittle: wrong by a little is usually wrong by a lot, and types make it more rigid, so a few examples pressed in the right places catch a wide range of defects. Keep an example when someone chose it: it presses a boundary or a soft spot of the implementation, documents intended behavior, or pins a real past bug, however ugly. Choosing inputs from knowledge of the implementation is good; asserting on its internals is `impl-lock`. A one-line assertion against a hand-derived value for a pricing rule is a keeper. Delete examples nobody chose: the happy path restated, or cases that differ only in literals.
@@ -59,7 +63,7 @@ Write one canonical scratchpad report holding: the test inventory (every test fi
 
 Use fresh agents, bounded to what you can coordinate, with non-overlapping ownership. Choose lanes from the survey, not from this list; drop roles the repo has no use for and split the ones it is heavy in.
 
-- **Catalog workers**, one per lane of roughly 150 to 300 tests split along subsystem lines. Each returns one row per test: `file::name | tier | verdict | reason code | behavior protected | mutant survived or killed | action`. They may run tests and probe.
+- **Catalog workers**, one per lane of roughly 150 to 300 tests split along subsystem lines. Each returns one row per test: `file::name | tier | verdict | reason code | real bug caught | only catcher? (what was searched) | probe (killed, survived, not run) | action`. They run tests and probe, as the verdict rules require.
 - **Harness reviewers**, one per expect or snapshot, property, fuzz, simulation, e2e, soak or chaos, or eval harness that exists. They give the same verdicts per test, then review the harness as a system through the lenses below and propose at most three extensions.
 - **Gap scouts**, one per subsystem. They read the source first and the tests second, and never see catalog verdicts. They list the invariants, state machines, codecs, concurrency, persistence, and trust boundaries the subsystem has, then say which no surviving test would catch breaking.
 - **Approach scout**, one for the whole repo: which techniques are absent and fit, with the ecosystem's library for each. The fit table is a floor; the scout also researches current practice for this stack and domain and what comparable projects run.
@@ -105,13 +109,13 @@ A proposal must name its first concrete property, invariant, relation, or scenar
 
 ## 3. Verify, deduplicate, rank
 
-Verify independently before accepting. Every `delete`: re-read the test and confirm the named mutant survives, by probe where cheap and by reasoning where not; downgrade to `unclear` on doubt. Every gap: search for a test that already covers it, at any tier. Every proposal: confirm the seam and the library exist. Reject proposals that restate coverage, add a tier with no named defect class, or exist for symmetry.
+Verify independently before accepting. Calibrate the keeps first: an independent verifier samples keeps from every catalog with a fixed seed, re-judges them against the Four Questions, and probes a share for real. A lane whose false-keep rate is above 10% is re-run with the verifier's examples in its brief. Every `delete`: re-read the test and confirm the named mutant survives, by probe where cheap and by reasoning where not; downgrade to `unclear` on doubt. Every gap: search for a test that already covers it, at any tier. Every proposal: confirm the seam and the library exist. Reject proposals that restate coverage, add a tier with no named defect class, or exist for symmetry.
 
 Promote a slop shape repeated across three or more lanes to a pattern with one rule that would stop it at authoring time. Then run one fresh coverage pass: which tests, harnesses, or subsystems does the inventory miss? Audit any real omission as its own row.
 
 ## Output
 
-Lead with the numbers: tests per tier split into delete, unclear, keep, plus lines and CI time removable. Then, briefly:
+Lead with the numbers: tests per tier split into delete, unclear, keep; real bugs caught per kept test; the probe-measured false-keep rate; plus lines and CI time removable. Then, briefly:
 
 1. Deletion clusters by reason code, largest first, each with one quoted example.
 2. Unclear tests grouped by the question that settles them.
