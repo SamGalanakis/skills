@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gavel"
+  short_description: "Do the clear items directly, close stale ones, and grill the user one at a time on the calls that need their judgment."
+  default_prompt: "Use $gavel: gather the open items, verify each premise, do the clear ones directly, close stale ones, then put each remaining decision to me one at a time in plain prose with context, a concrete example, today vs. proposed, options and your recommendation."

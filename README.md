@@ -9,6 +9,7 @@ Minimal collection of reusable coding skills.
 - [`cupel`](https://cupel.money/) — Internal skill for investing research, theses, watchlists, and decision journaling.
 - [`firehose`](./firehose/SKILL.md) — Run one project at maximum wall-clock throughput with many parallel agents: frontier planner + cheap workers, a durable ledger, merge on fast gates, fix forward on a slightly-red main, quality enforced at milestone boundaries.
 - [`ghmonitor`](./ghmonitor/SKILL.md) — Monitor GitHub Actions runs and fix failures.
+- [`gavel`](./gavel/SKILL.md) — Triage open decisions: do the clear and trivial ones directly, close stale ones, and grill the user one at a time, in plain prose with examples and a recommendation, only on calls that need their judgment.
 - [`groundhog`](./groundhog/SKILL.md) — Mine local Claude/Codex session traces for recurring patterns and friction, then report numbered improvement recommendations (read-only until prompted).
 - [`localref`](./localref/SKILL.md) — Clone or download external references locally for research.
 - [`moonshot`](./moonshot/SKILL.md) — Strip a feature to first principles, hunt the frontier wherever it lives (research, legendary implementations, other industries), and return ranked, implementable approaches the project has left untapped.
