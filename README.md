@@ -13,7 +13,6 @@ Minimal collection of reusable coding skills.
 - [`groundhog`](./groundhog/SKILL.md) — Mine local Claude/Codex session traces for recurring patterns and friction, then report numbered improvement recommendations (read-only until prompted).
 - [`localref`](./localref/SKILL.md) — Clone or download external references locally for research.
 - [`moonshot`](./moonshot/SKILL.md) — Strip a feature to first principles, hunt the frontier wherever it lives (research, legendary implementations, other industries), and return ranked, implementable approaches the project has left untapped.
-- [`orchestrate`](./orchestrate/SKILL.md) — Run large multi-phase work as an Opus 5.5 orchestrator (high effort) driving Opus 5.5 subagents and Devin SWE-2 High via devin-harness-run, with a Claude-budget routing rule, a worker-reuse rule of thumb, tight briefs and ground-truth review.
 - [`performancesmash`](./performancesmash/SKILL.md) — Audit systems for real performance bottlenecks and high-leverage optimizations.
 - [`pilcrow`](https://pilcrow.ink/) — Internal skill for prose editing, linting, and writing workflows.
 - [`profilesmash`](./profilesmash/SKILL.md) — Orchestrated audit of performance measurement infrastructure (profilers, benchmarks, load tests, tracing, budgets, regression gates): catalog every asset as delete (misleading or dead), unclear, or keep; map which flows are attributable, trustworthy, and regression-guarded across CPU, waiting, latency, memory, stack, round trips, and more; and propose the instruments that are missing.
@@ -22,7 +21,6 @@ Minimal collection of reusable coding skills.
 - [`sounding`](./sounding/SKILL.md) — Read where a project stands (conversation, milestones, tickets, recent change and trouble, past runs) and return a plan of which skills to run now, which later, and why the rest wait. Flags missing kinds of pass. Advisory, explicit invocation only.
 - [`spring-cleaning`](./spring-cleaning/SKILL.md) — Do a full codebase cleanup and restructuring pass.
 - [`testsmash`](./testsmash/SKILL.md) — Orchestrated audit of the whole test and eval approach: catalog every test as delete (frivolous or tautological), unclear, or keep; review expect, property, simulation, e2e, and eval harnesses; and propose new approaches (property, simulation, chaos, soak, formal methods, evals) where real gaps exist.
-- [`visual-explainer`](./visual-explainer/SKILL.md) — Turn a topic, plan, codebase, or feature into a single self-contained HTML visual explainer with diagrams, wireframes, and annotated code.
 - [`wholehog`](./wholehog/SKILL.md) — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - [`wholehog-loop`](./wholehog-loop/SKILL.md) — Orchestrate implement-then-score across separate subagents, looping until a target wholehog score is reached or a blocker stops it.
 - [`wholehog-score`](./wholehog-score/SKILL.md) — Score how close a current implementation is to the ideal wholehog end-state (higher = closer).
