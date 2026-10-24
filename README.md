@@ -21,6 +21,7 @@ Minimal collection of reusable coding skills.
 - [`schemasmash`](./schemasmash/SKILL.md) — Orchestrated read-only audit of types, data structures, schema, and serialized shapes for invalid-but-representable states, duplicate sources of truth, and invariants the representation fails to enforce.
 - [`sounding`](./sounding/SKILL.md) — Read where a project stands (conversation, milestones, tickets, recent change and trouble, past runs) and return a plan of which skills to run now, which later, and why the rest wait. Flags missing kinds of pass. Advisory, explicit invocation only.
 - [`spring-cleaning`](./spring-cleaning/SKILL.md) — Do a full codebase cleanup and restructuring pass.
+- [`status`](./status/SKILL.md) — Report where a thread or project stands: verdict against the goal, delta since last look, in flight, stuck, next, and what needs the user — live-checked, plain words, one screen.
 - [`testsmash`](./testsmash/SKILL.md) — Orchestrated audit of the whole test and eval approach: catalog every test as delete (frivolous or tautological), unclear, or keep; review expect, property, simulation, e2e, and eval harnesses; and propose new approaches (property, simulation, chaos, soak, formal methods, evals) where real gaps exist.
 - [`wholehog`](./wholehog/SKILL.md) — Implement the best end-state directly with a clean cutover and no legacy leftovers.
 - [`wholehog-loop`](./wholehog-loop/SKILL.md) — Orchestrate implement-then-score across separate subagents, looping until a target wholehog score is reached or a blocker stops it.
