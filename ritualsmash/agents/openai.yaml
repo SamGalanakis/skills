@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ritual Smash"
+  short_description: "Cut agent process overhead that catches no failure."
+  default_prompt: "Cut ritual overhead from this project's agent instructions, briefs, workflows and gates: provenance ceremony, duplicate verification, repeat runs, approval on reversible actions, hold-until-complete landings, readiness rituals, narration and bookkeeping that blocks action. Any step without a named failure that nothing else catches goes. Edit the shared rule files directly, tell running agents in one line, and report what you cut."
